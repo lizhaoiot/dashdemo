@@ -46,6 +46,8 @@ def mainMenu():
     global rawList
     global pwList
     global flag
+    global minLen
+    global maxLen
     clear()
     print('||')
     print('||'*40)
@@ -55,7 +57,7 @@ def mainMenu():
     print('||2:添加非法字符到列表')
     print('||3:清空原始密码列表')
     print('||4:整理原始密码列表')
-    print('||5:改变默认密码长度(%d-$d)'%(minLen,maxLen))
+    print("||5:改变默认密码长度(%d-%d)" %(minLen,maxLen))
     print('||6:创建密码列表')
     print('||7:显示所有密码')
     print('||8:创建字典文件')
@@ -86,7 +88,7 @@ def clear():
 def tipMainMenyinputError():
     '''错误信息'''
     clear()
-    print("只能输入0-7的整数，等待%d秒后重新输入"%timeout)
+    print("只能输入0-8的整数，等待%d秒后重新输入"%timeout)
     time.sleep(timeout)
 
 
@@ -139,7 +141,7 @@ def setRawList():
     for str in set(a-b):
         rawList.append(str)
         
-def modifyPassword():
+def modifyPasswordLen():
     '''修改默认密码的长度'''
     clear()
     global maxLen
