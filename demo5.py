@@ -163,18 +163,78 @@ def modifyPassword():
             res = input("确认将密码长度设定为%d吗？(Yy/Nn)" %maxLen)
             if res not in list('yYnN'):
                 print("")
-                
+                continue
+            elif res in list('yY'):
+                print("好吧，你确定就好")
+                break
+            else:
+                print("给个机会，修改一下吧")
+                continue
+        elif minLen>maxLen:
+            print("最小长度比最大长度大，请重新输入")
+            minLen=6
+            maxLen=16
+            continue
+        else:
+            print("设置完毕，等待%d秒后回主菜单" %timeout)
+            time.sleep(timeout)
+            break
             
             
             
 def createPasswordList():
     '''创建密码列表'''
-
+    global rawList
+    global pwList
+    global maxLen
+    global minLen
+    titleList=[]
+    swapcaseList=[]
+    for st in rawList:
+        swapcaseList.append(st.swapcase())
+        titleList.append(st.title())
+    sub1=[]
+    sub2=[]
+    for st in set(rawList+titleList+swapcaseList):
+        sub1.append(st)
+        
+    for i in range(2,len(sub1)+1):
+        sub2+=list(itertools.permutations(sub1,i))
+        
+    for tup in sub2:
+        PW=''
+        for subPW in tup:
+            PW+=subPW
+            if len(PW) in range(minLen,maxLen +1):
+                pwList.append(PW)
+            else:
+                pass
+                
 def showPassword():
     '''显示创建的密码'''
-
+    global pwList
+    global timeout
+    for i in range(len(pwList)):
+        if i%4==0:
+            print("%s\n" %pwList[i])
+        else:
+            print("%s\t" %pwList[i])
+    
+    print("\n")
+    print("显示%d秒，回到主菜单"% timeout)
+    time.sleep(timeout)
+    
 def createPasswordFile():
     '''创建密码字典文件'''
-
+    global flag
+    global pwList
+    print("当前目录下创建字典文件：dic.txt")
+    time.sleep(timeout)
+    with open('./dic.txt','w+') as fp:
+        for PW in pwList:
+            fp.write(PW)
+            fp.write('\n')  
+    flag=1
+            
 if __name__ == '__main__':
     main()
